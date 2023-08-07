@@ -15,11 +15,11 @@ const Landing: FC<LandingProps> = () => {
   console.log("user", user);
 
   return (
-    <Grid container>
-      {user ? (
+    <>
+      {user?.accessToken ? (
         <Dashboard />
       ) : (
-        <>
+        <Grid container>
           <Grid
             item
             xs={12}
@@ -109,9 +109,9 @@ const Landing: FC<LandingProps> = () => {
               </Typography>
             </Box>
           </Grid>
-        </>
+        </Grid>
       )}
-    </Grid>
+    </>
   );
 };
 

@@ -11,12 +11,12 @@ const theme = createTheme({
     },
     secondary: {
       main: "#15171C",
-      // light: "#000",
+      light: "#000",
     },
     text: {
       primary: "#fff",
-      secondary: "#fff",
-      disabled: "#fff",
+      secondary: "#000",
+      disabled: "grey",
     },
   },
 });
