@@ -8,16 +8,14 @@ import {
   TextField,
 } from "@mui/material";
 import { FC, useState } from "react";
-import { signIn } from "../../firebase/firebase.config";
-import { useAppDispatch } from "../../redux/hooks";
-import { setUser } from "../../redux/features/user/userSlice";
+import { signUp } from "../../firebase/firebase.config";
 
 interface LoginProps {
   // Define your component props here
   setShowSignup: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Login: FC<LoginProps> = ({ setShowSignup }) => {
+const Signup: FC<LoginProps> = ({ setShowSignup }) => {
   const [result, setResult] = useState({
     isLoading: false,
     message: "",
@@ -41,12 +39,12 @@ const Login: FC<LoginProps> = ({ setShowSignup }) => {
       });
       return;
     }
-    signIn(email.toString(), password.toString())
-      .then((res) => {
+    signUp(email.toString(), password.toString())
+      .then(() => {
         setResult({
           ...result,
           isLoading: false,
-          message: "Log in successful",
+          message: "Log in successfully",
           open: true,
           type: "success",
         });
@@ -72,6 +70,7 @@ const Login: FC<LoginProps> = ({ setShowSignup }) => {
       });
   };
   const { isLoading, message, open, type } = result;
+
   return (
     <Box
       sx={{
@@ -150,7 +149,11 @@ const Login: FC<LoginProps> = ({ setShowSignup }) => {
         <Button
           disabled={isLoading}
           startIcon={
-            isLoading ? <CircularProgress size={20} /> : <LoginOutlined />
+            result.isLoading ? (
+              <CircularProgress size={20} />
+            ) : (
+              <LoginOutlined />
+            )
           }
           type="submit"
           variant="contained"
@@ -161,7 +164,7 @@ const Login: FC<LoginProps> = ({ setShowSignup }) => {
             },
           }}
         >
-          Log In
+          Sign Up
         </Button>
         <Button
           size="small"
@@ -170,7 +173,7 @@ const Login: FC<LoginProps> = ({ setShowSignup }) => {
           color="primary"
           onClick={() => setShowSignup((e) => !e)}
         >
-          Sign Up
+          Login
         </Button>
         <Snackbar
           open={open}
@@ -190,4 +193,4 @@ const Login: FC<LoginProps> = ({ setShowSignup }) => {
   );
 };
 
-export default Login;
+export default Signup;

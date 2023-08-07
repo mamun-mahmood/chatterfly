@@ -5,32 +5,7 @@ interface UserState {
   value: object;
 }
 const initialState: UserState = {
-  value: {
-    name: "John Doe",
-    email: "johndoe@gmail.com",
-    role: "shipper",
-    isVerified: true,
-    isLoggedin: true,
-    isSubscribed: true,
-    isSubactive: true,
-    subscription: {
-      type: "free",
-      expiresAt: "2021-12-31",
-      subscriptionPlan: {
-        name: "Free",
-        price: 0,
-        description: "Free plan",
-        features: [
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-        ],
-        expiresAt: "2021-12-31",
-        paidAt: "2021-12-31",
-        paymentInfo: {},
-      },
-    },
-  },
+  value: {},
 };
 export const userSlice = createSlice({
   name: "user",
