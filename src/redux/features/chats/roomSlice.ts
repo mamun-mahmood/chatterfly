@@ -4,7 +4,16 @@ import type { RootState } from "../../store";
 interface Room {
   id: number;
   name: string;
-  messages?: string[]; // Assuming messages will be an array of strings
+  photoURL: string;
+  joiningCode: string;
+  createdby: string;
+  members: [];
+  messages: Array<{
+    id: number;
+    message: string;
+    sender: string;
+    timestamp: string;
+  }>;
 }
 
 interface RoomState {

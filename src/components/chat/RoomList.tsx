@@ -9,9 +9,12 @@ import {
   Box,
   Avatar,
   Typography,
+  IconButton,
 } from "@mui/material";
 import { useAppSelector } from "../../redux/hooks";
 import { selectRooms } from "../../redux/features/chats/roomSlice";
+import { CreateOutlined } from "@mui/icons-material";
+import CreateRoom from "./CreateRoom";
 
 interface RoomListProps {
   setActiveRoom: React.Dispatch<React.SetStateAction<{}>>;
@@ -19,50 +22,49 @@ interface RoomListProps {
 }
 const RoomList: FC<RoomListProps> = ({ activeRoom, setActiveRoom }) => {
   const [searchText, setSearchText] = useState("");
-  const [chatRooms, setChatRooms] = useState([
-    { id: 1, name: "General Chat", photoURL: "" },
-    { id: 2, name: "Team Discussions", photoURL: "" },
-    { id: 3, name: "Random Chatter", photoURL: "" },
-    // Add more chat rooms
-  ]);
   const rooms = useAppSelector(selectRooms);
-  console.log("rooms", rooms);
 
   const handleSearchChange = (event: any) => {
     setSearchText(event.target.value);
   };
 
-  const filteredChatRooms = chatRooms.filter((room) =>
+  const filteredChatRooms = rooms.filter((room) =>
     room.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
     <Box sx={{ padding: "16px", flex: 0.33 }}>
-      <TextField
-        label="Search Rooms"
-        variant="outlined"
-        fullWidth
-        value={searchText}
-        onChange={handleSearchChange}
+      <Box
         sx={{
-          marginBottom: "16px",
-          backgroundColor: "primary.main",
-          borderRadius: 5,
-          "& .MuiOutlinedInput-root": {
-            borderRadius: 5,
-            "& fieldset": {
-              borderColor: "primary.main",
-            },
-            "&:hover fieldset": {
-              borderColor: "white",
-              borderRadius: 5,
-            },
-            "& label.Mui-focused": {
-              color: "white",
-            },
-          },
+          display: "flex",
         }}
-      />
+      >
+        <TextField
+          label="Search Rooms"
+          variant="outlined"
+          fullWidth
+          value={searchText}
+          onChange={handleSearchChange}
+          sx={{
+            marginBottom: "16px",
+            backgroundColor: "primary.main",
+            borderRadius: 5,
+            "& .MuiOutlinedInput-root": {
+              borderRadius: 5,
+              "& fieldset": {
+                borderColor: "primary.main",
+              },
+              "&:hover fieldset": {
+                borderColor: "white",
+                borderRadius: 5,
+              },
+              "& label.Mui-focused": {
+                color: "white",
+              },
+            },
+          }}
+        />
+      </Box>
       <List>
         {filteredChatRooms.map((room) => (
           <React.Fragment key={room.id}>
@@ -103,7 +105,9 @@ const RoomList: FC<RoomListProps> = ({ activeRoom, setActiveRoom }) => {
                   }}
                 >
                   <Typography variant="h6">{room.name}</Typography>
-                  <Typography variant="body2">Last message...</Typography>
+                  <Typography variant="body2">
+                    {room.messages[0].message}
+                  </Typography>
                 </Box>
               </Box>
               <Typography variant="body2">Time</Typography>
@@ -111,6 +115,7 @@ const RoomList: FC<RoomListProps> = ({ activeRoom, setActiveRoom }) => {
           </React.Fragment>
         ))}
       </List>
+      <CreateRoom />
     </Box>
   );
 };

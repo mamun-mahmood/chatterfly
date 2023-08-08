@@ -21,7 +21,7 @@ const Dashboard: FC<DashboardProps> = (props) => {
     const roomsSnapshot = await getDocs(roomsCol);
     const rooms = roomsSnapshot.docs.map((doc) => doc.data());
     setLoading(false);
-    // Array.isArray(rooms) && dispatch(setRooms(rooms));
+    Array.isArray(rooms) && dispatch(setRooms(rooms as any));
   };
   useEffect(() => {
     fetchRooms();
