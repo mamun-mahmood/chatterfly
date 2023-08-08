@@ -10,6 +10,8 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
+import { useAppSelector } from "../../redux/hooks";
+import { selectRooms } from "../../redux/features/chats/roomSlice";
 
 interface RoomListProps {
   setActiveRoom: React.Dispatch<React.SetStateAction<{}>>;
@@ -23,6 +25,8 @@ const RoomList: FC<RoomListProps> = ({ activeRoom, setActiveRoom }) => {
     { id: 3, name: "Random Chatter", photoURL: "" },
     // Add more chat rooms
   ]);
+  const rooms = useAppSelector(selectRooms);
+  console.log("rooms", rooms);
 
   const handleSearchChange = (event: any) => {
     setSearchText(event.target.value);

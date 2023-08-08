@@ -12,7 +12,6 @@ interface LandingProps {
 const Landing: FC<LandingProps> = () => {
   const [showSignup, setShowSignup] = useState(false);
   const user = useAppSelector(selectUser);
-  console.log("user", user);
 
   return (
     <>
