@@ -1,5 +1,12 @@
 import React, { FC, useState } from "react";
-import { TextField, Box, Avatar, Typography, IconButton } from "@mui/material";
+import {
+  TextField,
+  Box,
+  Avatar,
+  Typography,
+  IconButton,
+  Skeleton,
+} from "@mui/material";
 import { useAppSelector } from "../../redux/hooks";
 import { selectRooms } from "../../redux/features/chats/roomSlice";
 import CreateRoom from "./CreateRoom";
@@ -114,57 +121,104 @@ const RoomList: FC<RoomListProps> = ({ activeRoom, setActiveRoom }) => {
           }}
         />
       </Box>
-      {filteredChatRooms.map((room) => (
-        <React.Fragment key={room.id}>
-          <Box
-            onClick={() => setActiveRoom(room)}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              my: 1,
-              color: "text.primary",
-              cursor: "pointer",
-              // hover
-              "&:hover": {
-                bgcolor: "primary.main",
-              },
-              bgcolor: activeRoom.id === room.id ? "primary.main" : "",
-              padding: 1,
-              borderRadius: 3,
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Avatar src={room.photoURL}>
-                {room.name
-                  .split(" ")
-                  .map((word) => word[0])
-                  .join("")}
-              </Avatar>
+      <Box
+        sx={{
+          overflowY: "scroll",
+          maxHeight: "70vh",
+          "&::-webkit-scrollbar": {
+            width: "0.4em",
+          },
+        }}
+      >
+        {rooms.length
+          ? filteredChatRooms.map((room) => (
+              <React.Fragment key={room.id}>
+                <Box
+                  onClick={() => setActiveRoom(room)}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    my: 1,
+                    color: "text.primary",
+                    cursor: "pointer",
+                    // hover
+                    "&:hover": {
+                      bgcolor: "primary.main",
+                    },
+                    bgcolor: activeRoom.id === room.id ? "primary.main" : "",
+                    padding: 1,
+                    borderRadius: 3,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Avatar src={room.photoURL}>
+                      {room.name
+                        .split(" ")
+                        .map((word) => word[0])
+                        .join("")}
+                    </Avatar>
+                    <Box
+                      sx={{
+                        marginLeft: "16px",
+                      }}
+                    >
+                      <Typography variant="h6">{room.name}</Typography>
+                      <Typography variant="body2">
+                        {room.messages[0]?.message}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Typography variant="body2">
+                    {new Date(room.messages[0]?.timestamp).toLocaleTimeString()}
+                  </Typography>
+                </Box>
+              </React.Fragment>
+            ))
+          : // form a aray of 6
+            Array.from(Array(10).keys()).map((key) => (
               <Box
+                key={key}
                 sx={{
-                  marginLeft: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  my: 1,
+                  color: "text.primary",
                 }}
               >
-                <Typography variant="h6">{room.name}</Typography>
-                <Typography variant="body2">
-                  {room.messages[0]?.message}
-                </Typography>
+                <Skeleton variant="circular" width={50} height={50} />
+                <Box
+                  // width={"100%"}
+                  sx={{
+                    ml: 1,
+                    flex: 1,
+                  }}
+                >
+                  <Skeleton
+                    variant="text"
+                    sx={{ fontSize: "1.5rem", width: "60%" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    sx={{ fontSize: "1rem", width: "60%" }}
+                  />
+                </Box>
+                <Skeleton
+                  variant="text"
+                  sx={{ fontSize: "1rem", width: "10%" }}
+                />
               </Box>
-            </Box>
-            <Typography variant="body2">
-              {new Date(room.messages[0]?.timestamp).toLocaleTimeString()}
-            </Typography>
-          </Box>
-        </React.Fragment>
-      ))}
-      <CreateRoom />
+            ))}
+      </Box>
+
+      {/* <CreateRoom /> */}
     </Box>
   );
 };

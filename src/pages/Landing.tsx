@@ -97,15 +97,6 @@ const Landing: FC<LandingProps> = () => {
               >
                 Experience realtime comunication, with no hassle.
               </Typography>
-              <Typography
-                color="text.secondary"
-                variant="body1"
-                sx={{
-                  textAlign: "center",
-                }}
-              >
-                Just with username and password.
-              </Typography>
             </Box>
           </Grid>
         </Grid>
