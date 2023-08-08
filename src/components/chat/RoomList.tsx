@@ -1,19 +1,7 @@
 import React, { FC, useState } from "react";
-import {
-  Paper,
-  TextField,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Box,
-  Avatar,
-  Typography,
-  IconButton,
-} from "@mui/material";
+import { TextField, Box, Avatar, Typography } from "@mui/material";
 import { useAppSelector } from "../../redux/hooks";
 import { selectRooms } from "../../redux/features/chats/roomSlice";
-import { CreateOutlined } from "@mui/icons-material";
 import CreateRoom from "./CreateRoom";
 
 interface RoomListProps {
@@ -27,7 +15,7 @@ const RoomList: FC<RoomListProps> = ({ activeRoom, setActiveRoom }) => {
   const handleSearchChange = (event: any) => {
     setSearchText(event.target.value);
   };
-
+  // create room listener
   const filteredChatRooms = rooms.filter((room) =>
     room.name.toLowerCase().includes(searchText.toLowerCase())
   );
