@@ -72,11 +72,15 @@ const ChatBody: FC<ChatBodyProps> = ({ activeRoom }) => {
           alignItems: "center",
           padding: "16px",
           justifyContent: "space-between",
+          height: 40,
         }}
       >
-        <Avatar src={activeRoom?.photoURL} alt="avatar">
-          {activeRoom?.name?.charAt(0).toUpperCase()}
-        </Avatar>
+        {activeRoom.id && (
+          <Avatar src={activeRoom?.photoURL} alt="avatar">
+            {activeRoom?.name?.charAt(0).toUpperCase()}
+          </Avatar>
+        )}
+
         <Typography color={"text.primary"}>{activeRoom?.name}</Typography>
       </Box>
       {/* chat body */}
@@ -96,7 +100,7 @@ const ChatBody: FC<ChatBodyProps> = ({ activeRoom }) => {
             },
           }}
         >
-          {Array.isArray(messages) &&
+          {Array.isArray(messages) ? (
             messages.map((message: any) => (
               <Box
                 key={message.id}
@@ -114,7 +118,35 @@ const ChatBody: FC<ChatBodyProps> = ({ activeRoom }) => {
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </Typography>
               </Box>
-            ))}
+            ))
+          ) : (
+            <Box>
+              <img
+                src="/images/hero.svg"
+                alt="landing"
+                style={{
+                  width: "70%",
+                  height: "auto",
+                  marginLeft: "15%",
+                }}
+              />
+              <Typography
+                color="text.primary"
+                variant="h6"
+                sx={{
+                  //   text color linear gradient
+                  backgroundImage:
+                    "linear-gradient(90deg, #6C63FF 0%, #C100D4 50%, #82ECEE 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  textAlign: "center",
+                  marginTop: 2,
+                }}
+              >
+                Click on a room to start chatting...
+              </Typography>
+            </Box>
+          )}
         </Box>
         {/* chat input */}
         <Box>
