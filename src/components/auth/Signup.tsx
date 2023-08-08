@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import { FC, useState } from "react";
 import { signUp } from "../../firebase/firebase.config";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/features/user/userSlice";
 
 interface LoginProps {
   // Define your component props here
@@ -99,6 +101,9 @@ const Signup: FC<LoginProps> = ({ setShowSignup }) => {
             "& label.Mui-focused": {
               color: "white",
             },
+            "& label": {
+              color: "primary.light",
+            },
             "& .MuiInputBase-root": {
               color: "white",
               borderRadius: "20px",
@@ -127,6 +132,9 @@ const Signup: FC<LoginProps> = ({ setShowSignup }) => {
           sx={{
             "& label.Mui-focused": {
               color: "white",
+            },
+            "& label": {
+              color: "primary.light",
             },
             "& .MuiInputBase-root": {
               color: "white",

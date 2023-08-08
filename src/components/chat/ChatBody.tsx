@@ -135,6 +135,7 @@ const ChatBody: FC<ChatBodyProps> = ({ activeRoom }) => {
               type="text"
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type a message"
+              autoComplete="off"
               sx={{
                 backgroundColor: "primary.main",
                 width: "100%",

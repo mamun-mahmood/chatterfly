@@ -100,6 +100,9 @@ const Login: FC<LoginProps> = ({ setShowSignup }) => {
             "& label.Mui-focused": {
               color: "white",
             },
+            "& label": {
+              color: "primary.light",
+            },
             "& .MuiInputBase-root": {
               color: "white",
               borderRadius: "20px",
@@ -128,6 +131,9 @@ const Login: FC<LoginProps> = ({ setShowSignup }) => {
           sx={{
             "& label.Mui-focused": {
               color: "white",
+            },
+            "& label": {
+              color: "primary.light",
             },
             "& .MuiInputBase-root": {
               color: "white",

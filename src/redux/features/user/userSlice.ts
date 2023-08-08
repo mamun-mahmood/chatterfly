@@ -32,6 +32,7 @@ const saveState = (state: any) => {
     localStorage.setItem("chatterflyusersate", serializedState);
   } catch (error) {
     // Handle errors if necessary
+    console.log(error);
   }
 };
 
@@ -44,8 +45,9 @@ export const userSlice = createSlice({
       state.value = action.payload;
     },
     logout: (state) => {
-      saveState(state); // Save state to localStorage
+      localStorage.removeItem("chatterflyusersate");
       state.value = {};
+      saveState(state.value);
     },
   },
 });

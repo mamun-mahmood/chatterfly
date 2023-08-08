@@ -94,7 +94,10 @@ export default function CreateRoom() {
               <TextField
                 sx={{
                   "& label.Mui-focused": {
-                    color: "white",
+                    color: "primary.light",
+                  },
+                  "& label": {
+                    color: "primary.light",
                   },
                   "& .MuiInputBase-root": {
                     color: "white",

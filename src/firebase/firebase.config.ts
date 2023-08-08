@@ -21,11 +21,11 @@ const auth = getAuth(app);
 const signIn = (email: string, password: string) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
-const logout = () => {
+const logoutFirebase = () => {
   return auth.signOut();
 };
 const signUp = (email: string, password: string) => {
   return createUserWithEmailAndPassword(auth, email, password);
 };
 export default app;
-export { db, auth, signIn, logout, signUp };
+export { db, auth, signIn, logoutFirebase, signUp };
