@@ -65,56 +65,56 @@ const RoomList: FC<RoomListProps> = ({ activeRoom, setActiveRoom }) => {
           }}
         />
       </Box>
-      <List>
-        {filteredChatRooms.map((room) => (
-          <React.Fragment key={room.id}>
+      {filteredChatRooms.map((room) => (
+        <React.Fragment key={room.id}>
+          <Box
+            onClick={() => setActiveRoom(room)}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              my: 1,
+              color: "text.primary",
+              cursor: "pointer",
+              // hover
+              "&:hover": {
+                bgcolor: "primary.main",
+              },
+              bgcolor: activeRoom.id === room.id ? "primary.main" : "",
+              padding: 1,
+              borderRadius: 3,
+            }}
+          >
             <Box
-              onClick={() => setActiveRoom(room)}
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                my: 1,
-                color: "text.primary",
-                cursor: "pointer",
-                // hover
-                "&:hover": {
-                  bgcolor: "primary.main",
-                },
-                bgcolor: activeRoom.id === room.id ? "primary.main" : "",
-                padding: 1,
-                borderRadius: 3,
               }}
             >
+              <Avatar src={room.photoURL}>
+                {room.name
+                  .split(" ")
+                  .map((word) => word[0])
+                  .join("")}
+              </Avatar>
               <Box
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  marginLeft: "16px",
                 }}
               >
-                <Avatar src={room.photoURL}>
-                  {room.name
-                    .split(" ")
-                    .map((word) => word[0])
-                    .join("")}
-                </Avatar>
-                <Box
-                  sx={{
-                    marginLeft: "16px",
-                  }}
-                >
-                  <Typography variant="h6">{room.name}</Typography>
-                  <Typography variant="body2">
-                    {room.messages[0].message}
-                  </Typography>
-                </Box>
+                <Typography variant="h6">{room.name}</Typography>
+                <Typography variant="body2">
+                  {room.messages[0]?.message}
+                </Typography>
               </Box>
-              <Typography variant="body2">Time</Typography>
             </Box>
-          </React.Fragment>
-        ))}
-      </List>
+            <Typography variant="body2">
+              {new Date(room.messages[0]?.timestamp).toLocaleTimeString()}
+            </Typography>
+          </Box>
+        </React.Fragment>
+      ))}
       <CreateRoom />
     </Box>
   );

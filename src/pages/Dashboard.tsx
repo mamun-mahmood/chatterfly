@@ -19,7 +19,9 @@ const Dashboard: FC<DashboardProps> = (props) => {
     setLoading(true);
     const roomsCol = collection(db, "chatterfly_chat_rooms");
     const roomsSnapshot = await getDocs(roomsCol);
-    const rooms = roomsSnapshot.docs.map((doc) => doc.data());
+    const rooms = roomsSnapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
     setLoading(false);
     Array.isArray(rooms) && dispatch(setRooms(rooms as any));
   };

@@ -12,7 +12,7 @@ interface Room {
     id: number;
     message: string;
     sender: string;
-    timestamp: string;
+    timestamp: any;
   }>;
 }
 
@@ -39,17 +39,21 @@ export const chatSlice = createSlice({
     },
     addMessage: (
       state,
-      action: PayloadAction<{ id: number; message: string }>
+      action: PayloadAction<{
+        id: number;
+        message: {
+          id: number;
+          message: string;
+          sender: string;
+          timestamp: any;
+        };
+      }>
     ) => {
-      state.value = state.value.map((room) => {
-        if (room.id === action.payload.id) {
-          return {
-            ...room,
-            messages: [...room.messages, action.payload.message],
-          };
-        }
-        return room;
-      });
+      const { id, message } = action.payload;
+      const room = state.value.find((room) => room.id === id);
+      if (room) {
+        room.messages.push(message);
+      }
     },
   },
 });

@@ -49,6 +49,7 @@ export default function CreateRoom() {
           id: uuidv4(),
           message: "Welcome to the room",
           sender: "Chatterfly",
+          timestamp: new Date().toLocaleString(),
         },
       ],
     });

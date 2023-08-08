@@ -1,22 +1,68 @@
 import { SendOutlined } from "@mui/icons-material";
 import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
-import { FC, useState } from "react";
-
+import { FC, useEffect, useState } from "react";
+import { useAppSelector } from "../../redux/hooks";
+import { selectUser } from "../../redux/features/user/userSlice";
+import {
+  arrayUnion,
+  doc,
+  updateDoc,
+  onSnapshot,
+  orderBy,
+} from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
+import { db } from "../../firebase/firebase.config";
+import { useDispatch } from "react-redux";
+import { addMessage, selectRooms } from "../../redux/features/chats/roomSlice";
 interface ChatBodyProps {
   // Define your component props here
   activeRoom: any;
 }
 
 const ChatBody: FC<ChatBodyProps> = ({ activeRoom }) => {
-  const messages = [
-    {
-      id: 1,
-      message: "Hello",
-      sender: "user",
-      timestamp: "12:00",
-    },
-  ];
   const [input, setInput] = useState("");
+  const room = useAppSelector(selectRooms).find(
+    (room) => room.id === activeRoom.id
+  );
+  const messages = room?.messages;
+  const user = useAppSelector(selectUser);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (activeRoom.id) {
+      const docRef = doc(db, "chatterfly_chat_rooms", activeRoom.id);
+
+      const unsubscribe = onSnapshot(docRef, (doc) => {
+        const data = doc.data();
+        const lastMessage = data?.messages[data?.messages.length - 1];
+        const newMessage = {
+          id: activeRoom.id,
+          message: lastMessage,
+        };
+        if (data) {
+          dispatch(addMessage(newMessage));
+        }
+      });
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, []);
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    if (!input) return;
+    const newMessage = {
+      id: uuidv4(),
+      message: input,
+      sender: user.displayName || user.email,
+      timestamp: new Date().toLocaleString(),
+    };
+    const docRef = doc(db, "chatterfly_chat_rooms", activeRoom.id);
+    await updateDoc(docRef, {
+      //   push new message to messages array
+      messages: arrayUnion(newMessage),
+    });
+    setInput("");
+  };
   return (
     <Box sx={{ flex: 0.67 }}>
       {/* header */}
@@ -50,26 +96,31 @@ const ChatBody: FC<ChatBodyProps> = ({ activeRoom }) => {
             },
           }}
         >
-          {messages.map((message) => (
-            <Box
-              sx={{
-                backgroundColor: "secondary.main",
-                padding: 2,
-                borderRadius: 3,
-                color: "text.primary",
-                width: "fit-content",
-              }}
-            >
-              <Typography>{message.message}</Typography>
-              <Typography variant="caption" ml={2}>
-                {message.timestamp}
-              </Typography>
-            </Box>
-          ))}
+          {Array.isArray(messages) &&
+            messages.map((message: any) => (
+              <Box
+                key={message.id}
+                sx={{
+                  backgroundColor: "secondary.main",
+                  padding: 1,
+                  borderRadius: 3,
+                  color: "text.primary",
+                  width: "fit-content",
+                  marginY: 1,
+                }}
+              >
+                <Typography>{message.message}</Typography>
+                <Typography variant="caption" ml={2}>
+                  {new Date(message.timestamp).toLocaleTimeString()}
+                </Typography>
+              </Box>
+            ))}
         </Box>
         {/* chat input */}
         <Box>
           <Box
+            component={"form"}
+            onSubmit={handleSubmit}
             sx={{
               display: "flex",
               alignItems: "center",
@@ -80,6 +131,7 @@ const ChatBody: FC<ChatBodyProps> = ({ activeRoom }) => {
             }}
           >
             <TextField
+              value={input}
               type="text"
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type a message"
