@@ -76,7 +76,13 @@ const ChatBody: FC<ChatBodyProps> = ({ activeRoom }) => {
         }}
       >
         {activeRoom.id && (
-          <Avatar src={activeRoom?.photoURL} alt="avatar">
+          <Avatar
+            src={activeRoom?.photoURL}
+            alt="avatar"
+            sx={{
+              bgcolor: activeRoom?.photoURL ? "" : "primary.main",
+            }}
+          >
             {activeRoom?.name?.charAt(0).toUpperCase()}
           </Avatar>
         )}

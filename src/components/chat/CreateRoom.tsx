@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { IconButton, TextField } from "@mui/material";
+import { IconButton, ListItemButton, TextField } from "@mui/material";
 import { CreateOutlined } from "@mui/icons-material";
 import { db } from "../../firebase/firebase.config";
 import { collection, addDoc } from "firebase/firestore";
@@ -57,21 +57,23 @@ export default function CreateRoom() {
   };
   return (
     <div>
-      <IconButton
+      <ListItemButton
         onClick={handleOpen}
         sx={{
           bgcolor: "primary.main",
           color: "text.primary",
-          padding: 3,
+          padding: 1,
           position: "sticky",
         }}
       >
         <CreateOutlined
           sx={{
-            fontSize: 30,
+            fontSize: 20,
+            mr: 1,
           }}
         />
-      </IconButton>
+        Create Room
+      </ListItemButton>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

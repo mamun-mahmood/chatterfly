@@ -14,6 +14,7 @@ import { ExitToAppOutlined, LogoutOutlined } from "@mui/icons-material";
 import { logout } from "../../redux/features/user/userSlice";
 import { logoutFirebase } from "../../firebase/firebase.config";
 import { useDispatch } from "react-redux";
+import UserMenu from "./UserMenu";
 
 interface RoomListProps {
   setActiveRoom: React.Dispatch<React.SetStateAction<{}>>;
@@ -65,23 +66,7 @@ const RoomList: FC<RoomListProps> = ({ activeRoom, setActiveRoom }) => {
         >
           ChatterFly
         </Typography>
-        <IconButton
-          onClick={() => {
-            dispatch(logout);
-            logoutFirebase();
-          }}
-          sx={{
-            backgroundColor: "primary.main",
-            ml: 1,
-          }}
-        >
-          <LogoutOutlined
-            sx={{
-              color: "primary.light",
-              fontSize: { xs: "1.5rem", md: "2rem" },
-            }}
-          />
-        </IconButton>
+        <UserMenu />
       </Box>
       <Box
         sx={{
@@ -158,7 +143,13 @@ const RoomList: FC<RoomListProps> = ({ activeRoom, setActiveRoom }) => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Avatar src={room.photoURL}>
+                    <Avatar
+                      src={room.photoURL}
+                      sx={{
+                        // use random color if no photoURL
+                        bgcolor: room.photoURL ? "" : "primary.main",
+                      }}
+                    >
                       {room.name
                         .split(" ")
                         .map((word) => word[0])
